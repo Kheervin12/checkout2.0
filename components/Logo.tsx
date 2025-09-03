@@ -11,12 +11,13 @@ const Logo = ({
   spanDesign?: string;
 }) => {
   return (
-    <Link href={"/"} className="inline-flex">
+    <Link href={"/"} className="inline-flex items-center justify-center">
       <Image
         src="/images/checkout_logo.png"
         alt="logo"
         width={30}
-        height={1}
+        height={30}
+        className="object-contain"
       />
       <h2
         className={cn(
