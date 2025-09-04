@@ -20,8 +20,6 @@ const DealPage = async () => {
         lg:grid-cols-5 gap-2.5"
         >
           {products?.map((product) => (
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            //  @ts-ignore
             <ProductCard key={product._id} product={product} />
           ))}
         </div>
