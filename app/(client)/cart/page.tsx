@@ -1,6 +1,9 @@
 "use client";
 
-import { createCheckoutSession, Metadata } from "@/actions/createCheckoutSession";
+import {
+  createCheckoutSession,
+  Metadata,
+} from "@/actions/createCheckoutSession";
 import Container from "@/components/Container";
 import EmptyCart from "@/components/EmptyCart";
 import NoAccess from "@/components/NoAccess";
@@ -38,7 +41,6 @@ const CartPage = () => {
     getSubTotalPrice,
     resetCart,
   } = useStore();
-  const [isClient, setIsClient] = useState(false);
   const [loading, setLoading] = useState(false);
   const groupedItems = useStore((state) => state.getGroupedItems());
   const { isSignedIn } = useAuth();
@@ -59,7 +61,7 @@ const CartPage = () => {
         setSelectedAddress(data[0]); // Optional: select first address if no default
       }
     } catch (error) {
-      console.error("Addresses fetching error:", error);
+      console.log("Addresses fetching error:", error);
     } finally {
       setLoading(false);
     }
@@ -67,14 +69,13 @@ const CartPage = () => {
   useEffect(() => {
     fetchAddresses();
   }, []);
-
   const handleResetCart = () => {
     const confirmed = window.confirm(
       "Are you sure you want to reset your cart?"
     );
     if (confirmed) {
       resetCart();
-      toast.success("Cart reset successful!");
+      toast.success("Cart reset successfully!");
     }
   };
 
@@ -89,8 +90,8 @@ const CartPage = () => {
         address: selectedAddress,
       };
       const checkoutUrl = await createCheckoutSession(groupedItems, metadata);
-      if (checkoutUrl){
-      window.location.href = checkoutUrl
+      if (checkoutUrl) {
+        window.location.href = checkoutUrl;
       }
     } catch (error) {
       console.error("Error creating checkout session:", error);
@@ -106,7 +107,7 @@ const CartPage = () => {
             <>
               <div className="flex items-center gap-2 py-5">
                 <ShoppingBag className="text-darkColor" />
-                <Title>Your Shopping Cart</Title>
+                <Title>Shopping Cart</Title>
               </div>
               <div className="grid lg:grid-cols-3 md:gap-8">
                 <div className="lg:col-span-2 rounded-lg">
@@ -122,7 +123,8 @@ const CartPage = () => {
                             {product?.images && (
                               <Link
                                 href={`/product/${product?.slug?.current}`}
-                                className="border p-0.5 md:p-1 mr-2 rounded-md overflow-hidden group"
+                                className="border p-0.5 md:p-1 mr-2 rounded-md
+                                 overflow-hidden group"
                               >
                                 <Image
                                   src={urlFor(product?.images[0]).url()}
@@ -134,7 +136,7 @@ const CartPage = () => {
                                 />
                               </Link>
                             )}
-                            <div className="h-full flex flex-1 flex-col justify-between py-1 ">
+                            <div className="h-full flex flex-1 flex-col justify-between py-1">
                               <div className="flex flex-col gap-0.5 md:gap-1.5">
                                 <h2 className="text-base font-semibold line-clamp-1">
                                   {product?.name}
@@ -205,7 +207,7 @@ const CartPage = () => {
                   </div>
                 </div>
                 <div>
-                  <div className="lg:col-span-2">
+                  <div className="lg:col-span-1">
                     <div className="hidden md:inline-block w-full bg-white p-6 rounded-lg border">
                       <h2 className="text-xl font-semibold mb-4">
                         Order Summary
@@ -255,10 +257,7 @@ const CartPage = () => {
                                 <div
                                   key={address?._id}
                                   onClick={() => setSelectedAddress(address)}
-                                  className={`flex items-center space-x-2 mb-4 cursor-pointer ${
-                                    selectedAddress?._id === address?._id &&
-                                    "text-shop_light_green"
-                                  }`}
+                                  className={`flex items-center space-x-2 mb-4 cursor-pointer ${selectedAddress?._id === address?._id && "text-shop_dark_green"}`}
                                 >
                                   <RadioGroupItem
                                     value={address?._id.toString()}
@@ -271,7 +270,6 @@ const CartPage = () => {
                                       {address?.name}
                                     </span>
                                     <span className="text-sm text-black/60">
-                                      {" "}
                                       {address.address}, {address.city},{" "}
                                       {address.state} {address.zip}
                                     </span>
